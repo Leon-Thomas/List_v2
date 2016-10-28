@@ -26,3 +26,40 @@ inline void list_del(List *node)
     __list_del(node->prev, node->next);
 }
 
+inline int list_empty(List *head)
+{
+    return (head == head->next);
+}
+
+/*将该节点移动到另一个链表head节点后面*/
+inline void list_move(List *node, List *head)
+{
+    list_del(node);
+    list_add(head, node);
+}
+
+/*将该节点移动到另一个链表head的末尾（head之前）*/
+inline void list_move_tail(List *node, List *head)
+{
+    list_del(node);
+    list_add_tail(head, node);
+}
+
+/*将该srchead链表添加到另一个disthead链表节点head的后面*/
+void list_splice(List *srchead, List *disthead)
+{
+    if(list_empty(srchead)) return;
+    List *shead = srchead->next;
+    list_del(srchead);
+    List *stail = shead->prev;
+
+    stail->next = disthead->next;
+    disthead->next = shead;
+    shead->prev = disthead;
+    stail->next->prev = stail;
+
+}
+
+
+
+

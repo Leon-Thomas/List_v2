@@ -26,15 +26,15 @@ typedef struct list_node
 
 //添加一个节点到指定节点后面
 void list_add(List *head, List *_new);
-
-//从链表中删除一个节点(并不释放内存)
-void __list_del(List *prev, List *next);
-void list_del(List *node);
 //将节点添加到链尾
 void list_add_tail(List *head, List *_new);
 //从链表中删除该节点(并不释放内存)
 void __list_del(List *prev, List *next);
 void list_del(List *node);
+//从链表中删除该节点并释放内存
+#define list_del_free(node,type,member) \
+    do{type *tp=list_entry(node,type,member);list_del(node);free(tp);}while(0)
+
 //将该节点移动到另一个链表head节点后面
 void list_move(List *node, List *head);
 //将该节点移动到另一个链表head的末尾（head之前）
@@ -42,11 +42,11 @@ void list_move_tail(List *node, List *head);
 //判断链表是否为空，是返回1，否返回0
 int list_empty(List *head);
 //将该链表添加到另一个链表节点head的后面
-void list_splice(List *list, List *head);
+void list_splice(List *srchead, List *disthead);
 
 /*遍历链表*/
 /*
- * @ptr: 指向包含链表结构的结构体指针
+ * @ptr: 链表节点指针
  * @list: 链表头指针
  */ 
 #define list_for_each(ptr, list) \

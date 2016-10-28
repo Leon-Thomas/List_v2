@@ -43,5 +43,16 @@ int main()
     {
         printf("data:%d\n",tp->data);
     }
+    
+    printf("--------delete----------------\n");
+
+    tp = list_entry(head.node.next,struct test,node);
+    list_del(&tp->node);
+    free(tp);
+    list_for_each_entry(tp, &head.node, node)
+    {
+        printf("data:%d\n",tp->data);
+    }
+
     return 0;
 }
