@@ -7,6 +7,7 @@
 
 #include "list.h"
 
+/*添加一个节点到指定节点后面*/
 inline void list_add(List *head, List *_new)
 {
     _new->next = head->next;
@@ -15,6 +16,15 @@ inline void list_add(List *head, List *_new)
     _new->next->prev = _new;
 }
 
+inline void list_add_tail(List *head, List *_new)
+{
+    _new->prev = head->prev;
+    head->prev = _new;
+    _new->prev->next = _new;
+    _new->next = head;
+}
+
+/*将节点添加到链尾*/
 inline void __list_del(List *prev, List *next)
 {
     prev->next = next;
@@ -57,6 +67,7 @@ void list_splice(List *srchead, List *disthead)
     disthead->next = shead;
     shead->prev = disthead;
     stail->next->prev = stail;
+    list_init(srchead);
 
 }
 
